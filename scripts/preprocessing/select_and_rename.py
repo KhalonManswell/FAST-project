@@ -4,7 +4,7 @@ import random
 import shutil
 
 SOURCE_DIR = Path("data/original/unas_dataset")
-OUTPUT_DIR = Path("data/processed")
+OUTPUT_DIR = Path("data/processed/selected")
 CSV_DIR = Path("data/metadata/renaming_log.csv")
 
 SELECTED_CLASSES = [
