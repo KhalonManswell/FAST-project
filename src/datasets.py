@@ -10,7 +10,9 @@ val_data_path = "data/processed/val"
 
 #Data transformations and augmentations
 train_transform = transforms.Compose([
-    transforms.Resize(64),
+    transforms.Resize((64,64)),
+    
+    transforms.Grayscale(1),
 
     transforms.RandomAffine(
         degrees=5, 
@@ -23,7 +25,8 @@ train_transform = transforms.Compose([
 ])
 
 evaluation_transform = transforms.Compose([
-    transforms.Resize(64),
+    transforms.Resize((64,64)),
+    transforms.Grayscale(1),
     transforms.ToTensor()
 ])
 
