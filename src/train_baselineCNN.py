@@ -49,6 +49,7 @@ def train(model, optimizer, loss_fn, train_loader, val_loader, epochs, device = 
         training_loss = 0.0
         valid_loss = 0.0
         valid_correct = 0
+        best_valid_accuracy = 0.0
 
         model.train()
 
@@ -79,7 +80,13 @@ def train(model, optimizer, loss_fn, train_loader, val_loader, epochs, device = 
 
                 predictions = output.argmax(dim = 1)
                 valid_correct += (predictions == targets).sum().item()
-                valid_accuracy = valid_correct / len(val_loader.dataset)
+            valid_loss /= len(val_loader)
+            valid_accuracy = valid_correct / len(val_loader.dataset)
+        
+        if valid_accuracy > best_valid_accuracy:
+            best_valid_accuracy = valid_accuracy
+
+            torch.save(model.state_dict(), "models/BaselineCNN_best.pth")
 
         print(
             f"Epoch: {epoch+1 }" f"/{epochs} | "
@@ -108,9 +115,10 @@ def main():
 
     optimizer = optim.Adam(model.parameters(), lr=0.001)
     loss_fn = nn.CrossEntropyLoss()
+    num_epochs = 50
 
     train(model, optimizer, loss_fn, train_loader=datasets.train_data_loader, val_loader=datasets.val_data_loader, 
-          epochs=20, device=device)
+          epochs=num_epochs, device=device)
     
 
 if __name__ == "__main__":
